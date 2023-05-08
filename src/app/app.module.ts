@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MainPageComponent } from './main-page/main-page.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { NewsComponent } from './news/news.component';
@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile/profile.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NewsService } from './news.service';
 
 @NgModule({
   declarations: [
@@ -26,12 +28,14 @@ import { ProfileComponent } from './profile/profile.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     ButtonsModule,
     NgOptimizedImage,
-    FormsModule
+    FormsModule,
+    CommonModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, HttpClient, NewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

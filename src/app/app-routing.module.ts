@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './main-page/main-page.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { NewsComponent } from './news/news.component';
+import { NewsResolver } from './news.resolver';
+import { NewsIOResolver } from './newsIO.resolver';
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +18,15 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+  },
+  {
+    path: 'news',
+    component: NewsComponent,
+    resolve:
+    {
+      news: NewsResolver,
+      newsIO: NewsIOResolver,
+    }
   },
 ];
 
