@@ -6,6 +6,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { NewsComponent } from './news/news.component';
 import { NewsResolver } from './news.resolver';
 import { NewsIOResolver } from './newsIO.resolver';
+import { TablesComponent } from './tables/tables.component';
+import { TablesEditComponent } from './tables-edit/tables-edit.component';
+import { AllTablesResolver } from './all-tables.reslover';
 const routes: Routes = [
   {
     path: '',
@@ -27,6 +30,17 @@ const routes: Routes = [
       news: NewsResolver,
       newsIO: NewsIOResolver,
     }
+  },
+  {
+    path: 'tables',
+    component: TablesComponent,
+    resolve: {
+      tables: AllTablesResolver,
+    }
+  },
+  {
+    path: 'tables/edit/:id',
+    component: TablesEditComponent
   },
 ];
 

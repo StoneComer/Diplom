@@ -30,17 +30,17 @@
           <li class="nav-item">
             <a routerLink="" class="nav-link" aria-current="page">Главная</a>
           </li>
-          <li class="nav-item"  [ngClass]="{invisible : auth.role === 'guest'}">
+          <li class="nav-item"  [ngClass]="{invisible : user.role === 'guest'}">
             <a routerLink="/news" class="nav-link">Новости</a>
           </li>
-          <li class="nav-item"  [ngClass]="{invisible : auth.role === 'guest'}">
-            <a class="nav-link">Мои таблицы</a>
+          <li class="nav-item"  [ngClass]="{invisible : user.role === 'guest'}">
+            <a routerLink="/tables" class="nav-link">Мои таблицы</a>
           </li>
         </ul>
         <form class="d-flex justify-end">
           <div>
-            <button routerLink="/authorization" class="btn btn-primary me-2">Войти</button>
-            <button class="btn btn-primary">Зарегистрироваться</button>
+            <button (click)="authGoogle()" [ngClass]="{invisible : user.role !== 'guest'}" class="btn btn-primary me-2">Войти через Google</button>
+            <button (click)="logOut()" [ngClass]="{invisible : user.role === 'guest'}" class="btn btn-primary me-2">Выйти</button>
           </div>
         </form>
       </div>

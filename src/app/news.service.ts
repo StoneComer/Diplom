@@ -12,7 +12,7 @@ export class NewsService {
     urlNewsApi = 'https://newsapi.org/v2/top-headlines?q=finances&country=ru'
     //url1 = 'https://lenta.ru/rss';
     getNewsIo() {
-        return this.http.get(this.url);
+      return this.http.get(this.url);
     }
     getNewsApi(year: number, month: number, day: number) {
       return this.http.get(this.urlNewsApi + '&from=' + year + '-' + month + '-' + day + '&to=' + year + '-' + (month + 1) + '-' + day + this.keyNewsApi);

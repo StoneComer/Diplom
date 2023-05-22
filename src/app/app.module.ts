@@ -11,10 +11,15 @@ import { NewsComponent } from './news/news.component';
 import { TablesComponent } from './tables/tables.component';
 import { FormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
-import { AuthService } from './auth.service';
+import { AuthService, Tables } from './auth.service';
 import { ProfileComponent } from './profile/profile.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NewsService } from './news.service';
+import { TablesEditComponent } from './tables-edit/tables-edit.component';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { AuthState } from 'src/store/auth.state';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,8 @@ import { NewsService } from './news.service';
     NewsComponent,
     TablesComponent,
     RegistrationComponent,
-    ProfileComponent
+    ProfileComponent,
+    TablesEditComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +40,11 @@ import { NewsService } from './news.service';
     NgOptimizedImage,
     FormsModule,
     CommonModule,
+    NgxsModule.forRoot([AuthState]),
+    NgxsReduxDevtoolsPluginModule,
+    NgxsLoggerPluginModule
   ],
-  providers: [AuthService, HttpClient, NewsService],
+  providers: [AuthService, HttpClient, NewsService, TablesComponent, Tables],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
