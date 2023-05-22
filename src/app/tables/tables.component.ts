@@ -119,6 +119,13 @@ export class TablesComponent implements OnInit {
       }
     });;
   }
+  add_empty_table_in_group() {
+    this.table.postNewEmptyTableInGroup(this.groups.groups_ides[this.current_folder_index]).subscribe({
+      next: resp => {
+        document.location.reload();
+      }
+    });
+  }
   ReadExcel(event: any, ) {
     let file = event.target.files[0];
     let fileReader = new FileReader();
@@ -155,6 +162,13 @@ export class TablesComponent implements OnInit {
           this.tables.tables.push(table);
         }
         this.authtables.tables = this.tables;
+    }
+  }
+  editTable(index: number) {
+    if (this.current_folder === 'none') {
+      this.router.navigate(['/tables/edit/' + this.tables_ides[index]]);
+    } else {
+      this.router.navigate(['/tables/edit/' + this.groups.groups_ides[this.current_folder_index] + '-' + this.groups.tables_ides[index]]);
     }
   }
 }

@@ -5,6 +5,7 @@ import { profile_tables } from '../interfaces';
 import { TablesComponent } from '../tables/tables.component';
 import { FileSaverService } from 'ngx-filesaver';
 import * as XLSXX from 'xlsx';
+import { TablesService } from '../tables.service';
 
 @Component({
   selector: 'app-tables-edit',
@@ -12,13 +13,14 @@ import * as XLSXX from 'xlsx';
   styleUrls: ['./tables-edit.component.css']
 })
 export class TablesEditComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private tablec: TablesComponent, private authtable: Tables, private fileSaver: FileSaverService) {}
+  constructor(private route: ActivatedRoute, private tablec: TablesComponent, private authtable: Tables, private fileSaver: FileSaverService, private tableservice: TablesService) {}
   isTable: boolean = false;
   index = {
     indexTable: 0,
     group: false,
     indexGroup: 0,
   };
+  table: any;
   tables: profile_tables = {
     tables: [{
       name: 'test_1',
@@ -53,6 +55,17 @@ export class TablesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.tables = this.authtable.tables;
+    let id = this.route.snapshot.params['id'].findIndex('-');
+    if (id > -1) {
+      let group = this.route.snapshot.params['id'].split('+')[0]; // 50ml
+      let table = this.route.snapshot.params['id'].split('+')[1];
+      this.tableservice.getOneTable(table, group).subscribe({
+        next: resp => {
+          table = resp;
+          console.log(table);
+        }
+      }); // $100
+    }
     console.log(this.tablec.tables);
     console.log(this.tables);
     // let id = this.route.snapshot.params['id'].findIndex('-');

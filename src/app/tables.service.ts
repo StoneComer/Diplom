@@ -15,6 +15,13 @@ export class TablesService {
     getAllProfileTables() {
         return this.http.get(this.url + 'ProfileTables/' + this.uid + '.json');
     }
+    getOneTable(idTable:string, idGroup?: string) {
+      if (idGroup) {
+      return this.http.get(this.url + 'ProfileTables/' + this.uid + '/' + idGroup + '/tables/' + idTable + '.json');
+      } else {
+        return this.http.get(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '.json');
+      }
+    }
     postEmptyUserSlot() {
         let id = '';
         if (this.uid) {
@@ -28,8 +35,8 @@ export class TablesService {
     postNewGroup() {
       return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group.json', {name: 'empty'});
     }
-    postTableInGroup() {
-
+    postNewEmptyTableInGroup(idGroup: string) {
+      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group/' + idGroup + 'tables/', {name: 'empty'});
     }
     // getNewsLenta() {
     //   return this.http.get(this.url1);
