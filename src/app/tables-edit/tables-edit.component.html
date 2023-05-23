@@ -1,5 +1,5 @@
 <div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column;">
-  <div>
+  <div class="table-responsive">
     <div style="display: flex; justify-content: space-between;">
       <div routerLink="/tables" style="cursor: pointer; margin-left: 2%;">
         <svg width="46" height="46" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -13,10 +13,11 @@
         Скачать
       </div>
       <div>Переименовать таблицу</div>
-      <div>Сохранить таблицу</div>
-      <div>Удалить таблицу</div>
+      <div (click)="saveTable()">Сохранить таблицу</div>
+      <div (click)="deleteTable()">Удалить таблицу</div>
     </div>
-    <table class="table" style="width: 97%; margin-inline: start; margin-left: 8px;">
+    <div style="text-align: center;"><h3><label style="margin-right: 8px;">Имя таблицы:</label><input required #nameTable="ngModel" [(ngModel)]="new_name" minlength="1" maxlength="50" type="text"></h3></div>
+    <table class="table" style="width: 97%; margin-inline-start: auto; overflow-y: scroll; margin-left: 8px;">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -31,20 +32,20 @@
         </tr>
       </thead>
       <tbody>
-            <ng-container *ngFor="let field of fields; index as i">
-              <tr>
-                <th scope="row">{{i + 1}}</th>
-                <td>{{ field.name }}</td>
-                <td>{{ field.birza }}</td>
-                <td>{{ field.buyDate | date:'longDate' }}</td>
-                <td>{{ field.buyPrice}}</td>
-                <td>{{ field.saleDate | date:'longDate' }}</td>
-                <td>{{ field.salePrice}}</td>
-                <td>{{ field.dohod }}</td>
-                <td (click)="deleteString(i)">del</td>
-              </tr>
-            </ng-container>
-          <div (click)="addEmptyString()">Добавить запись</div>
+        <ng-container *ngFor="let field of sendfields; index as i">
+          <tr>
+            <th scope="row">{{i + 1}}</th>
+            <td><input required #name="ngModel" [(ngModel)]="field.name" minlength="1" maxlength="50" type="text"></td>
+            <td><input required #birza="ngModel" [(ngModel)]="field.birza" minlength="1" maxlength="50" type="text"></td>
+            <td><input required #buyDate="ngModel" [(ngModel)]="field.buyDate" minlength="1" maxlength="50" type="text"></td>
+            <td><input required #buyPrice="ngModel" [(ngModel)]="field.buyPrice" minlength="1" maxlength="50" type="text"></td>
+            <td><input required #saleDate="ngModel" [(ngModel)]="field.saleDate" minlength="1" maxlength="50" type="text"></td>
+            <td><input required #salePrice="ngModel" [(ngModel)]="field.salePrice" minlength="1" maxlength="50" type="text"></td>
+            <td>{{ field.dohod }}</td>
+            <td (click)="deleteString(i)">del</td>
+          </tr>
+        </ng-container>
+        <div (click)="addEmptyString()">Добавить запись</div>
       </tbody>
     </table>
   </div>

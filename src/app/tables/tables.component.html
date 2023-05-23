@@ -1,7 +1,7 @@
 <div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column;">
   <div>
     <label>Загрузить Excel таблицу</label>
-    <input type="file" (change)="ReadExcel($event)">
+    <input type="file">
   </div>
   <div (click)="add_empty_table()">Создать новую таблицу</div>
   <div (click)="add_empty_group()">Создать новую группу</div>
@@ -35,6 +35,7 @@
             </svg>
             <span style="margin-left: 8px; color: black; font-weight: 700; font-size: larger;">Назад</span>
           </div>
+          <div (click)="deleteGroup()">Удалить группу</div>
           <div>
             <ng-container *ngIf="tables_base.groupsTables[current_folder_index].tables.length !== 0">
               <ng-container *ngFor="let item of tables_base.groupsTables[current_folder_index].tables; index as k">

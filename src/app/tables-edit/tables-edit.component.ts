@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Tables } from '../auth.service';
 import { profile_tables } from '../interfaces';
 import { TablesComponent } from '../tables/tables.component';
@@ -13,51 +13,27 @@ import { TablesService } from '../tables.service';
   styleUrls: ['./tables-edit.component.css']
 })
 export class TablesEditComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private tablec: TablesComponent, private authtable: Tables, private fileSaver: FileSaverService, private tableservice: TablesService) {}
+  constructor(private route: ActivatedRoute, private tablec: TablesComponent, private authtable: Tables, private fileSaver: FileSaverService, private tableservice: TablesService, private router: Router) {}
   isTable: boolean = false;
   groupId = '';
   tableId = '';
+  new_name:string = '';
   fields: any = [];
+  sendfields: any;
   index = {
     indexTable: 0,
     group: false,
     indexGroup: 0,
   };
-  table: any;
-  tables: profile_tables = {
-    tables: [{
-      name: 'test_1',
-      fields: [{
-        name: 'Газпром',
-        birza: 'Сбербанк Инвестиции',
-        buyDate: '2023-04-08',
-        buyPrice: '',
-        saleDate: '2023-05-08',
-        salePrice: '',
-        dohod: '',
-      }],
-    }],
-    groupsTables: [
-      {
-      name: 'test_group_1',
-      tables: [{
-        name: 'test_2',
-        fields: [{
-          name: 'Башнефть',
-          birza: 'Тинькофф Инвестиции',
-          buyDate: '2023-04-08',
-          buyPrice: '',
-          saleDate: '2023-04-08',
-          salePrice: '',
-          dohod: '',
-        }],
-      }],
-      }
-    ],
+  table: {
+    name: string,
+    fields: any,
+  } = {
+    name: '',
+    fields: null,
   };
 
   ngOnInit(): void {
-    this.tables = this.authtable.tables;
     let id = this.route.snapshot.params['id'].indexOf('--');
     if (id > -1) {
       this.groupId = this.route.snapshot.params['id'].split('--')[0]; // 50ml
@@ -65,8 +41,10 @@ export class TablesEditComponent implements OnInit {
       this.tableservice.getOneTable(this.tableId, this.groupId).subscribe({
         next: (resp:any) => {
           this.table = resp;
+          this.new_name = resp.name;
           if (resp.fields) {
             this.fields = Object.values(resp.fields);
+            this.sendfields = this.fields;
           }
           console.log(resp);
           //console.log(fields);
@@ -74,14 +52,18 @@ export class TablesEditComponent implements OnInit {
       }); // $100
     } else {
       this.tableservice.getOneTable(this.route.snapshot.params['id']).subscribe({
-        next: resp => {
+        next: (resp:any) => {
           this.table = resp;
-          console.log(this.table);
+          this.new_name = resp.name;
+          if (resp.fields) {
+            this.fields = Object.values(resp.fields);
+            this.sendfields = this.fields;
+          }
+          console.log(resp);
+          //console.log(fields);
         }
       });
     }
-    console.log(this.tablec.tables);
-    console.log(this.tables);
     // let id = this.route.snapshot.params['id'].findIndex('-');
     // if (id > -1) {
 
@@ -156,16 +138,28 @@ export class TablesEditComponent implements OnInit {
   //   const blobData = new Blob([excelBuffer], {type:EXCEL_TYPE});
   //   this.fileSaver.save(blobData,"demoFile")
   // }
-  renameTable(new_name: string) {
-    if (this.index.group) {
-      this.tables.groupsTables[this.index.indexGroup].tables[this.index.indexTable].name = new_name;
+  saveTable() {
+    let table = {name: this.new_name,fields: this.sendfields}
+    if (this.groupId === '') {
+      this.tableservice.patchFields(this.tableId, table).subscribe();
     } else {
-      this.tables.tables[this.index.indexTable].name = new_name;
+      this.tableservice.patchFields(this.tableId, table, this.groupId).subscribe();
     }
   }
-  saveTable() {
-  }
   deleteTable() {
+    if (this.groupId === '') {
+      this.tableservice.deleteTable(this.route.snapshot.params['id']).subscribe({
+        next: resp => {
+          this.router.navigate(['/tables']);
+        }
+      });
+    } else {
+      this.tableservice.deleteTable(this.tableId, this.groupId).subscribe({
+        next: resp => {
+          this.router.navigate(['/tables']);
+        }
+      });
+    }
   }
   addEmptyString() {
     this.fields.push({
@@ -175,7 +169,7 @@ export class TablesEditComponent implements OnInit {
       buyPrice: '',
       saleDate: '',
       salePrice: '',
-      dohod: '',
+      dohod: 'empty',
     });
   }
   deleteString(index: number) {

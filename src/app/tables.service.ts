@@ -27,23 +27,33 @@ export class TablesService {
         if (this.uid) {
           id = this.uid;
         }
-        return this.http.put(this.url + 'ProfileTables.json', { [id] : 'empty'});
+        return this.http.put(this.url + 'ProfileTables.json', { [id] : {group: {id :{name: 'empty', tables: null}}, tables: {id:{name: 'empty'}}}});
     }
-    postNewEmptyTable() {
-      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/tables.json', {name: 'empty'});
+    postNewEmptyTable(name: string) {
+      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/tables.json', {name: name});
     }
-    postNewGroup() {
-      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group.json', {name: 'empty'});
+    postNewGroup(name: string) {
+      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group.json', {name: name});
     }
-    postNewEmptyTableInGroup(idGroup: string) {
-      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group/' + idGroup + 'tables/', {name: 'empty'});
+    postNewEmptyTableInGroup(idGroup: string, name: string) {
+      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group/' + idGroup + '/tables.json', {name: name});
     }
-    patchFields(idTable:string, fields: object, idGroup?: string) {
+    patchFields(idTable:string, fields: any, idGroup?: string) {
       if (idGroup) {
-      return this.http.patch(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '/tables/' + idTable + '/fields' + '.json', fields);
+      return this.http.patch(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '/tables/' + idTable + '.json', fields);
       } else {
-        return this.http.get(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '/fields' + '.json', fields);
+        return this.http.patch(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '.json', fields);
       }
+    }
+    deleteTable(idTable:string, idGroup?: string) {
+      if (idGroup) {
+        return this.http.delete(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '/tables/' + idTable + '.json');
+        } else {
+          return this.http.delete(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '.json');
+        }
+    }
+    deleteGroup(idGroup: string) {
+      return this.http.delete(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '.json');
     }
     // getNewsLenta() {
     //   return this.http.get(this.url1);
