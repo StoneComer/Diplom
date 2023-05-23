@@ -17,7 +17,7 @@ export class TablesService {
     }
     getOneTable(idTable:string, idGroup?: string) {
       if (idGroup) {
-      return this.http.get(this.url + 'ProfileTables/' + this.uid + '/' + idGroup + '/tables/' + idTable + '.json');
+      return this.http.get(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '/tables/' + idTable + '.json');
       } else {
         return this.http.get(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '.json');
       }
@@ -37,6 +37,13 @@ export class TablesService {
     }
     postNewEmptyTableInGroup(idGroup: string) {
       return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group/' + idGroup + 'tables/', {name: 'empty'});
+    }
+    patchFields(idTable:string, fields: object, idGroup?: string) {
+      if (idGroup) {
+      return this.http.patch(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '/tables/' + idTable + '/fields' + '.json', fields);
+      } else {
+        return this.http.get(this.url + 'ProfileTables/' + this.uid + '/tables/' + idTable + '/fields' + '.json', fields);
+      }
     }
     // getNewsLenta() {
     //   return this.http.get(this.url1);

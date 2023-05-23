@@ -168,7 +168,7 @@ export class TablesComponent implements OnInit {
     if (this.current_folder === 'none') {
       this.router.navigate(['/tables/edit/' + this.tables_ides[index]]);
     } else {
-      this.router.navigate(['/tables/edit/' + this.groups.groups_ides[this.current_folder_index] + '-' + this.groups.tables_ides[index]]);
+      this.router.navigate(['/tables/edit/' + this.groups.groups_ides[this.current_folder_index] + '--' + this.groups.tables_ides[index]]);
     }
   }
 }

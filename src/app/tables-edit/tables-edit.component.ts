@@ -15,6 +15,9 @@ import { TablesService } from '../tables.service';
 export class TablesEditComponent implements OnInit {
   constructor(private route: ActivatedRoute, private tablec: TablesComponent, private authtable: Tables, private fileSaver: FileSaverService, private tableservice: TablesService) {}
   isTable: boolean = false;
+  groupId = '';
+  tableId = '';
+  fields: any = [];
   index = {
     indexTable: 0,
     group: false,
@@ -55,16 +58,27 @@ export class TablesEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.tables = this.authtable.tables;
-    let id = this.route.snapshot.params['id'].findIndex('-');
+    let id = this.route.snapshot.params['id'].indexOf('--');
     if (id > -1) {
-      let group = this.route.snapshot.params['id'].split('+')[0]; // 50ml
-      let table = this.route.snapshot.params['id'].split('+')[1];
-      this.tableservice.getOneTable(table, group).subscribe({
-        next: resp => {
-          table = resp;
-          console.log(table);
+      this.groupId = this.route.snapshot.params['id'].split('--')[0]; // 50ml
+      this.tableId = this.route.snapshot.params['id'].split('--')[1];
+      this.tableservice.getOneTable(this.tableId, this.groupId).subscribe({
+        next: (resp:any) => {
+          this.table = resp;
+          if (resp.fields) {
+            this.fields = Object.values(resp.fields);
+          }
+          console.log(resp);
+          //console.log(fields);
         }
       }); // $100
+    } else {
+      this.tableservice.getOneTable(this.route.snapshot.params['id']).subscribe({
+        next: resp => {
+          this.table = resp;
+          console.log(this.table);
+        }
+      });
     }
     console.log(this.tablec.tables);
     console.log(this.tables);
@@ -150,8 +164,21 @@ export class TablesEditComponent implements OnInit {
     }
   }
   saveTable() {
-
   }
   deleteTable() {
+  }
+  addEmptyString() {
+    this.fields.push({
+      name: '',
+      birza: '',
+      buyDate: '',
+      buyPrice: '',
+      saleDate: '',
+      salePrice: '',
+      dohod: '',
+    });
+  }
+  deleteString(index: number) {
+    this.fields.splice(index, 1);
   }
 }

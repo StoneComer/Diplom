@@ -16,45 +16,35 @@
       <div>Сохранить таблицу</div>
       <div>Удалить таблицу</div>
     </div>
-    <table class="table">
+    <table class="table" style="width: 97%; margin-inline: start; margin-left: 8px;">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Название акции</th>
           <th scope="col">Биржа</th>
           <th scope="col">Дата покупки</th>
+          <th scope="col">Цена покупки</th>
           <th scope="col">Дата продажи</th>
+          <th scope="col">Цена продажи</th>
           <th scope="col">Доходность</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngIf="isTable">
-          <ng-container *ngIf="index.group">
-            <ng-container *ngFor="let field of tables.groupsTables[index.indexGroup].tables[index.indexTable].fields; index as i">
+            <ng-container *ngFor="let field of fields; index as i">
               <tr>
                 <th scope="row">{{i + 1}}</th>
                 <td>{{ field.name }}</td>
                 <td>{{ field.birza }}</td>
                 <td>{{ field.buyDate | date:'longDate' }}</td>
+                <td>{{ field.buyPrice}}</td>
                 <td>{{ field.saleDate | date:'longDate' }}</td>
+                <td>{{ field.salePrice}}</td>
                 <td>{{ field.dohod }}</td>
+                <td (click)="deleteString(i)">del</td>
               </tr>
             </ng-container>
-          </ng-container>
-          <ng-container *ngIf="!index.group">
-            <ng-container *ngFor="let field of tables.tables[index.indexTable].fields; index as i">
-              <tr>
-                <th scope="row">{{i + 1}}</th>
-                <td>{{ field.name }}</td>
-                <td>{{ field.birza }}</td>
-                <td>{{ field.buyDate | date:'longDate' }}</td>
-                <td>{{ field.saleDate | date:'longDate' }}</td>
-                <td>{{ field.dohod }}</td>
-              </tr>
-            </ng-container>
-          </ng-container>
-          <div>Добавить запись</div>
-        </ng-container>
+          <div (click)="addEmptyString()">Добавить запись</div>
       </tbody>
     </table>
   </div>
