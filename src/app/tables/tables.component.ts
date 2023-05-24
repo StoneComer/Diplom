@@ -67,6 +67,7 @@ export class TablesComponent implements OnInit {
                   tables: Object.values(item.tables),
                 });
               } else {
+                this.groups.tables_ides.push({idGroup: this.groups.groups_ides[i], tablesIdes: []})
                 this.tables_base.groupsTables.push({
                   name: item.name,
                   tables: [],

@@ -42,7 +42,9 @@ export class NewsComponent implements OnInit {
       }
     });
     console.log(newsIO);
-    this.newslist = [];
-    this.newslist = newsitems;
+    if (newsitems.length > 0){
+      this.newslist = [];
+      this.newslist = newsitems;
+    }
   }
 }

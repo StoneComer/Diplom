@@ -28,4 +28,7 @@
       </div>
     </ng-container>
   </ng-container>
+  <ng-container *ngIf="newslist[0].title === ''">
+    <span>Нет актуальных новостей</span>
+  </ng-container>
 </div>
