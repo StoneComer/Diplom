@@ -55,6 +55,15 @@ export class TablesService {
     deleteGroup(idGroup: string) {
       return this.http.delete(this.url + 'ProfileTables/' + this.uid + '/group/' + idGroup + '.json');
     }
+    postSupportMessage(message: any) {
+      return this.http.post(this.url + 'SupportMessages.json', message);
+    }
+    getSupportMessages() {
+      return this.http.get(this.url + 'SupportMessages.json');
+    }
+    deletesupportMessage(id: string) {
+      return this.http.delete(this.url + 'SupportMessages/' + id +'.json');
+    }
     // getNewsLenta() {
     //   return this.http.get(this.url1);
     // }

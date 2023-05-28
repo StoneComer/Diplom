@@ -19,7 +19,6 @@ export class TablesEditComponent implements OnInit {
   tableId = '';
   new_name:string = '';
   fields: any = [];
-  sendfields: any;
   index = {
     indexTable: 0,
     group: false,
@@ -44,7 +43,6 @@ export class TablesEditComponent implements OnInit {
           this.new_name = resp.name;
           if (resp.fields) {
             this.fields = Object.values(resp.fields);
-            this.sendfields = this.fields;
           }
           console.log(resp);
           //console.log(fields);
@@ -57,7 +55,6 @@ export class TablesEditComponent implements OnInit {
           this.new_name = resp.name;
           if (resp.fields) {
             this.fields = Object.values(resp.fields);
-            this.sendfields = this.fields;
           }
           console.log(resp);
           //console.log(fields);
@@ -139,9 +136,9 @@ export class TablesEditComponent implements OnInit {
   //   this.fileSaver.save(blobData,"demoFile")
   // }
   saveTable() {
-    let table = {name: this.new_name,fields: this.sendfields}
+    let table = {name: this.new_name,fields: this.fields}
     if (this.groupId === '') {
-      this.tableservice.patchFields(this.tableId, table).subscribe();
+      this.tableservice.patchFields(this.route.snapshot.params['id'], table).subscribe();
     } else {
       this.tableservice.patchFields(this.tableId, table, this.groupId).subscribe();
     }

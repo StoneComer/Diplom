@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #acc4cc;">
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: white;">
     <div class="container-fluid">
       <div class="mx-4">
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,14 @@
         <form class="d-flex justify-end">
           <div>
             <button (click)="authGoogle()" [ngClass]="{invisible : user.role !== 'guest'}" class="btn btn-primary me-2">Войти через Google</button>
-            <button (click)="logOut()" [ngClass]="{invisible : user.role === 'guest'}" class="btn btn-primary me-2">Выйти</button>
+            <div routerLink="/profile" type="button"  [ngClass]="{invisible : user.role === 'guest'}" style="display: flex; flex-flow: row;">
+              <div style="display: flex; align-items: center; margin-right: 8px;"><img *ngIf="user.image" [ngSrc]="user.image" alt="" width="40" height="40" style="border-radius: 1.5em;"></div>
+              <div style="display: flex; flex-flow: column;">
+                <div>{{ user.name }}</div>
+                <div>{{ user.email }}</div>
+              </div>
+              <!-- <button (click)="logOut()" class="btn btn-primary me-2">Выйти</button> -->
+            </div>
           </div>
         </form>
       </div>
@@ -48,13 +55,13 @@
   </nav>
 </header>
 <main><router-outlet></router-outlet></main>
-<footer class="footer mt-auto" style="background-color: #acc4cc;">
+<footer class="footer mt-auto" style="background-color: #0e3e7f;">
   <div class="container pb-3">
-  <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-    <li class="nav-item"><a routerLink="" class="nav-link px-2 text-muted">Главная</a></li>
-    <li class="nav-item"><a class="nav-link px-2 text-muted"  [ngClass]="{invisible : auth.role === 'guest'}">Новости</a></li>
-    <li class="nav-item"><a class="nav-link px-2 text-muted"  [ngClass]="{invisible : auth.role === 'guest'}">Мои таблицы</a></li>
-  </ul>
-  <p class="text-center text-muted" style="margin-bottom: 0;">&copy; 2023 Фомин М.С.</p>
+    <ul class="nav list-group justify-content-center border-bottom pb-3 mb-3" style="display: flex; align-content: center;">
+      <li class="nav-item"><a routerLink="" class="nav-link px-2" style="color: white; text-align: center; cursor: pointer;">Главная</a></li>
+      <li class="nav-item"><a class="nav-link px-2"  [ngClass]="{invisible : user.role === 'guest'}" style="color: white; text-align: center; cursor: pointer;">Новости</a></li>
+      <li class="nav-item"><a class="nav-link px-2"  [ngClass]="{invisible : user.role === 'guest'}" style="color: white; text-align: center; cursor: pointer;">Мои таблицы</a></li>
+    </ul>
+    <p class="text-center" style="margin-bottom: 0; color: white;">&copy; 2023 Фомин М.С.</p>
   </div>
 </footer>

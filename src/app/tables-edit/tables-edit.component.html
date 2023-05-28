@@ -1,4 +1,4 @@
-<div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column;">
+<div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column; background-color: #eaf2fd;">
   <div class="table-responsive">
     <div style="display: flex; justify-content: space-between;">
       <div routerLink="/tables" style="cursor: pointer; margin-left: 2%;">
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let field of sendfields; index as i">
+        <ng-container *ngFor="let field of fields; index as i">
           <tr>
             <th scope="row">{{i + 1}}</th>
             <td><input required #name="ngModel" [(ngModel)]="field.name" minlength="1" maxlength="50" type="text"></td>
@@ -42,7 +42,7 @@
             <td><input required #saleDate="ngModel" [(ngModel)]="field.saleDate" minlength="1" maxlength="50" type="text"></td>
             <td><input required #salePrice="ngModel" [(ngModel)]="field.salePrice" minlength="1" maxlength="50" type="text"></td>
             <td>{{ field.dohod }}</td>
-            <td (click)="deleteString(i)">del</td>
+            <td (click)="deleteString(i)"><button type="button" class="btn-close" aria-label="Close"></button></td>
           </tr>
         </ng-container>
         <div (click)="addEmptyString()">Добавить запись</div>

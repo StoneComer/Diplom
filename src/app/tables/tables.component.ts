@@ -129,7 +129,7 @@ export class TablesComponent implements OnInit {
   }
   add_empty_table() {
     let empty = this.checkNames();
-    if (this.current_folder) {
+    if (this.current_folder === 'folder') {
       this.table.postNewEmptyTableInGroup(this.groups.groups_ides[this.current_folder_index], empty).subscribe({
         next: resp => {
           document.location.reload();

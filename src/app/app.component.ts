@@ -89,6 +89,7 @@ export class AppComponent implements OnInit{
             image: user.photoURL,
           }));
         }
+        this.user = this.store.selectSnapshot(AuthState.getUserInfo);
       }
       // IdP data available using getAdditionalUserInfo(result)
       // ...

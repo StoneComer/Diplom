@@ -5,3 +5,14 @@ td input {
 h3 input {
   border: 0;
 }
+
+.btn-primary {
+  color: white;
+  background-color: #0e3e7f;
+  border-color: #0e3e7f; /*set the color you want here*/
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  color: white;
+  background-color: #0d3872;
+  border-color: #0d3872; /*set the color you want here*/
+}

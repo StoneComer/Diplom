@@ -1,4 +1,5 @@
-<div style="width: 100%; height: calc(100vh - 169px);">
+<div style="width: 100%; background-color: #eaf2fd;">
+  <div>
   <ng-container *ngIf="newslist[0].title !== ''">
     <ng-container *ngFor="let item of newslist">
       <!-- <div class="card my-2" style="width: 98%; margin: auto;">
@@ -31,4 +32,5 @@
   <ng-container *ngIf="newslist[0].title === ''">
     <span>Нет актуальных новостей</span>
   </ng-container>
+  </div>
 </div>

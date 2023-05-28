@@ -5,14 +5,14 @@
 color: #052718;
 }
 .btn-primary {
-  color: #3b4d3a;
-  background-color: #acc4cc;
-  border-color: #052718; /*set the color you want here*/
+  color: white;
+  background-color: #0e3e7f;
+  border-color: #0e3e7f; /*set the color you want here*/
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
-  color: #acc4cc;
-  background-color: #052718;
-  border-color: #052718; /*set the color you want here*/
+  color: white;
+  background-color: #0d3872;
+  border-color: #0d3872; /*set the color you want here*/
 }
 body{
   height: 100%;

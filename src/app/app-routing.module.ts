@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'tables/edit/:id',
     component: TablesEditComponent
   },
+  {
+    path: 'profile',
+    component: ProfileComponent
+  }
 ];
 
 @NgModule({
