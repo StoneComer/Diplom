@@ -23,11 +23,11 @@ export class TablesService {
       }
     }
     postEmptyUserSlot() {
-        let id = '';
+        let id = '1';
         if (this.uid) {
           id = this.uid;
         }
-        return this.http.put(this.url + 'ProfileTables.json', { [id] : {group: {id :{name: 'empty', tables: null}}, tables: {id:{name: 'empty'}}}});
+        return this.http.patch(this.url + 'ProfileTables.json', { [id] : {group: {id :{name: 'empty', tables: null}}, tables: {id:{name: 'empty'}}}});
     }
     postNewEmptyTable(name: string) {
       return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/tables.json', {name: name});

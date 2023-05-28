@@ -6,6 +6,7 @@ import { TablesComponent } from '../tables/tables.component';
 import { FileSaverService } from 'ngx-filesaver';
 import * as XLSXX from 'xlsx';
 import { TablesService } from '../tables.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-tables-edit',
@@ -18,7 +19,16 @@ export class TablesEditComponent implements OnInit {
   groupId = '';
   tableId = '';
   new_name:string = '';
-  fields: any = [];
+  fields: {
+    name?: string,
+    birza?: string,
+    buyPrice?: string,
+    buyDate?: string,
+    salePrice?: string,
+    saleDate?: string,
+    number?: string,
+    dohod?: string
+  }[] = [];
   index = {
     indexTable: 0,
     group: false,
@@ -31,6 +41,8 @@ export class TablesEditComponent implements OnInit {
     name: '',
     fields: null,
   };
+  itog_dohod = '';
+  itog_dohod365 = '';
 
   ngOnInit(): void {
     let id = this.route.snapshot.params['id'].indexOf('--');
@@ -43,6 +55,11 @@ export class TablesEditComponent implements OnInit {
           this.new_name = resp.name;
           if (resp.fields) {
             this.fields = Object.values(resp.fields);
+            this.fields.forEach(item => {
+              if ((item.buyDate && item.buyDate !== '') && (item.buyPrice && item.buyPrice !== '') && (item.saleDate && item.saleDate !== '') && (item.salePrice && item.salePrice !== '') && (item.number && item.number !== '' && item.number !== '0')) {
+                item.dohod = Math.pow(((Number(item.salePrice) * Number(item.number)) / (Number(item.buyPrice) * Number(item.number))), ( 1 / ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000))).toString();
+              }
+            });
           }
           console.log(resp);
           //console.log(fields);
@@ -55,6 +72,34 @@ export class TablesEditComponent implements OnInit {
           this.new_name = resp.name;
           if (resp.fields) {
             this.fields = Object.values(resp.fields);
+            this.fields.forEach(item => {
+              if ((item.buyDate && item.buyDate !== '') && (item.buyPrice && item.buyPrice !== '') && (item.saleDate && item.saleDate !== '') && (item.salePrice && item.salePrice !== '') && (item.number && item.number !== '' && item.number !== '0')) {
+                item.dohod = Math.pow(((Number(item.salePrice) * Number(item.number)) / (Number(item.buyPrice) * Number(item.number))), ( 1 / ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000))).toString();
+              }
+            });
+            let starts:number[] = [];
+            let ends:number[] = [];
+            this.fields.forEach(item => {
+              if (item.saleDate && item.buyDate){
+                let buy = (Number(item.buyPrice) * Number(item.number));
+                let sumbuy = buy;
+                for(let i = 0; i < ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000); i++) {
+                  buy = buy / Number(item.dohod);
+                  sumbuy = sumbuy + buy;
+                }
+                starts.push(sumbuy);
+                ends.push(buy * ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000));
+              }
+            });
+            if (this.fields[1].saleDate && this.fields[1].buyDate)
+            console.log((Date.parse(this.fields[1].saleDate) - Date.parse(this.fields[1].buyDate)) / 86400000);
+            console.log(ends);
+            let starts_sum:number = 0;
+            starts.map(item => starts_sum += item);
+            let ends_sum:number = 0;
+            ends.map(item => ends_sum += item);
+            this.itog_dohod = (starts_sum / ends_sum).toString();
+            this.itog_dohod365 = (Math.pow((starts_sum / ends_sum), 365)).toString();
           }
           console.log(resp);
           //console.log(fields);
@@ -138,9 +183,17 @@ export class TablesEditComponent implements OnInit {
   saveTable() {
     let table = {name: this.new_name,fields: this.fields}
     if (this.groupId === '') {
-      this.tableservice.patchFields(this.route.snapshot.params['id'], table).subscribe();
+      this.tableservice.patchFields(this.route.snapshot.params['id'], table).subscribe({
+        next: resp => {
+          location.reload();
+        }
+      });
     } else {
-      this.tableservice.patchFields(this.tableId, table, this.groupId).subscribe();
+      this.tableservice.patchFields(this.tableId, table, this.groupId).subscribe({
+        next: resp => {
+          location.reload();
+        }
+      });
     }
   }
   deleteTable() {

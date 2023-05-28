@@ -1,5 +1,5 @@
-<div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column; background-color: #eaf2fd;">
-  <div style="display: flex; flex-flow: row; justify-content: flex-end; margin-top: 1%;">
+<div>
+  <div style="display: flex; flex-flow: row; justify-content: flex-end; padding-top: 8px;">
     <div style="margin-right: 4px;">
       <input type="file" id="openFile" style="display: none;"/>
       <label for="openFile"><svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24" style="color: #2e7d32; cursor: pointer;">
@@ -7,10 +7,10 @@
       </svg></label>
     </div>
     <div (click)="add_empty_table()" style="margin-right: 4px; cursor: pointer;"><img src="../../assets/4202106excellogomicrosoftms-115582_115719.png" width="45" height="45" alt=""></div>
-    <div (click)="add_empty_group()" style="margin-right: 4px; cursor: pointer;"><img src="../../assets/wallet_snap_2806.png" width="45" height="45" alt=""></div>
+    <div *ngIf="current_folder === 'none'" (click)="add_empty_group()" style="margin-right: 4px; cursor: pointer;"><img src="../../assets/wallet_snap_2806.png" width="45" height="45" alt=""></div>
     <div *ngIf="current_folder === 'folder'" (click)="deleteGroup()" style="margin-right: 4px; cursor: pointer;"><img src="../../assets/folder_delete_deletefolder_2808.png" width="45" height="45" alt=""></div>
   </div>
-  <div style="display: flex; margin: 1%">
+  <div style="display: flex; margin: 1%; flex-wrap: wrap;">
     <ng-container [ngSwitch]="current_folder">
       <ng-container *ngSwitchCase="'none'">
         <ng-container *ngIf="tables_base.groupsTables.length !== 0">
@@ -31,16 +31,16 @@
         </ng-container>
       </ng-container>
       <ng-container *ngSwitchCase="'folder'">
-        <div style="display: flex; flex-flow: column;">
-          <div (click)="closeFolder()" style="cursor: pointer;">
-            <svg width="46" height="46" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div style="display: flex; flex-flow: column; width:100%">
+          <div (click)="closeFolder()" style="cursor: pointer; display: flex; flex-flow: rows;">
+            <svg width="30" height="30" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z"></path>
               <path d="m12 8-4 4 4 4"></path>
               <path d="M16 12H8"></path>
             </svg>
-            <span style="margin-left: 8px; color: black; font-weight: 700; font-size: larger;">Назад</span>
+            <span style="margin-left: 8px; color: black; font-weight: 700; font-size: larger;">{{tables_base.groupsTables[current_folder_index].name}}</span>
           </div>
-          <div style="display: flex; flex-flow: row; margin-top: 4%;">
+          <div style="display: flex; flex-flow: row; margin-top: 1%; flex-wrap: wrap;">
             <ng-container *ngIf="tables_base.groupsTables[current_folder_index].tables.length !== 0">
               <ng-container *ngFor="let item of tables_base.groupsTables[current_folder_index].tables; index as k">
                 <div (click)="editTable(k)" class="elem" style="display: grid; grid-auto-columns: auto; text-align: center; cursor: pointer;">

@@ -20,3 +20,6 @@ body{
 .invisible{
   display: none;
 }
+footer {
+  margin-block-end: auto;
+}

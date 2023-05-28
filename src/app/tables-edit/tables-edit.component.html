@@ -1,52 +1,82 @@
-<div style="display: flex; width: 100%; height: calc(100vh - 169px); flex-flow: column; background-color: #eaf2fd;">
-  <div class="table-responsive">
-    <div style="display: flex; justify-content: space-between;">
-      <div routerLink="/tables" style="cursor: pointer; margin-left: 2%;">
-        <svg width="46" height="46" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<div>
+  <div>
+    <div style="display: flex; justify-content: space-between; padding-top: 8px; margin-bottom: 8px;">
+      <div routerLink="/tables" style="display: flex; cursor: pointer; margin-left: 2%;">
+        <svg width="30" height="30" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z"></path>
           <path d="m12 8-4 4 4 4"></path>
           <path d="M16 12H8"></path>
         </svg>
         <span style="margin-left: 8px; color: black; font-weight: 700; font-size: larger;">Назад</span>
       </div>
-      <div style="margin-right: 2%;">
-        Скачать
+      <div style="display: flex; flex-flow: row; margin-right: 1%;">
+        <button class="controls" style="margin-right: 2%; background-color: #eaf2fd; border: 0;">
+          <svg width="30" height="30" fill="none" stroke="#2e7d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+            <path d="M12 15V3"></path>
+          </svg>
+        </button>
+        <button class="controls" (click)="saveTable()" [disabled]="nameTable.invalid" style="background-color: #eaf2fd; border: 0; margin-right: 1px;">
+          <svg width="30" height="30" fill="none" stroke="#0e3e7f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <path d="M17 21v-8H7v8"></path>
+            <path d="M7 3v5h8"></path>
+          </svg>
+        </button>
+        <button (click)="deleteTable()" class="controls" style="background-color: #eaf2fd; border: 0;">
+          <svg width="30" height="30" fill="none" stroke="#7d2d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 6h18"></path>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
       </div>
-      <div>Переименовать таблицу</div>
-      <div (click)="saveTable()">Сохранить таблицу</div>
-      <div (click)="deleteTable()">Удалить таблицу</div>
     </div>
     <div style="text-align: center;"><h3><label style="margin-right: 8px;">Имя таблицы:</label><input required #nameTable="ngModel" [(ngModel)]="new_name" minlength="1" maxlength="50" type="text"></h3></div>
-    <table class="table" style="width: 97%; margin-inline-start: auto; overflow-y: scroll; margin-left: 8px;">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Название акции</th>
-          <th scope="col">Биржа</th>
-          <th scope="col">Дата покупки</th>
-          <th scope="col">Цена покупки</th>
-          <th scope="col">Дата продажи</th>
-          <th scope="col">Цена продажи</th>
-          <th scope="col">Доходность</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let field of fields; index as i">
+    <div class="table-responsive">
+      <table class="table" style="width: 97%; margin-inline-start: auto; overflow-y: scroll; margin-left: 8px;">
+        <thead>
           <tr>
-            <th scope="row">{{i + 1}}</th>
-            <td><input required #name="ngModel" [(ngModel)]="field.name" minlength="1" maxlength="50" type="text"></td>
-            <td><input required #birza="ngModel" [(ngModel)]="field.birza" minlength="1" maxlength="50" type="text"></td>
-            <td><input required #buyDate="ngModel" [(ngModel)]="field.buyDate" minlength="1" maxlength="50" type="text"></td>
-            <td><input required #buyPrice="ngModel" [(ngModel)]="field.buyPrice" minlength="1" maxlength="50" type="text"></td>
-            <td><input required #saleDate="ngModel" [(ngModel)]="field.saleDate" minlength="1" maxlength="50" type="text"></td>
-            <td><input required #salePrice="ngModel" [(ngModel)]="field.salePrice" minlength="1" maxlength="50" type="text"></td>
-            <td>{{ field.dohod }}</td>
-            <td (click)="deleteString(i)"><button type="button" class="btn-close" aria-label="Close"></button></td>
+            <th scope="col">#</th>
+            <th scope="col">Название акции</th>
+            <th scope="col">Биржа</th>
+            <th scope="col">Дата покупки</th>
+            <th scope="col">Цена покупки</th>
+            <th scope="col">Дата продажи</th>
+            <th scope="col">Цена продажи</th>
+            <th scope="col">Кол-во</th>
+            <th scope="col">Доходность в день</th>
+            <th></th>
           </tr>
-        </ng-container>
-        <div (click)="addEmptyString()">Добавить запись</div>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let field of fields; index as i">
+            <tr>
+              <th scope="row">{{i + 1}}</th>
+              <td><input required #name="ngModel" [(ngModel)]="field.name" minlength="1" maxlength="50" type="text"></td>
+              <td><input required #birza="ngModel" [(ngModel)]="field.birza" minlength="1" maxlength="50" type="text"></td>
+              <td><input required #buyDate="ngModel" [(ngModel)]="field.buyDate" minlength="1" maxlength="50" type="date"></td>
+              <td><input required #buyPrice="ngModel" [(ngModel)]="field.buyPrice" minlength="1" maxlength="50" type="text"></td>
+              <td><input required #saleDate="ngModel" [(ngModel)]="field.saleDate" minlength="1" maxlength="50" type="date"></td>
+              <td><input required #salePrice="ngModel" [(ngModel)]="field.salePrice" minlength="1" maxlength="50" type="text"></td>
+              <td><input required #number="ngModel" [(ngModel)]="field.number" minlength="1" maxlength="50" type="text"></td>
+              <td>{{ field.dohod }}</td>
+              <td (click)="deleteString(i)"><button type="button" class="btn-close" aria-label="Close"></button></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button (click)="addEmptyString()" [disabled]="fields.length === 500" type="button" style="margin-bottom: 2%; border: 0; background-color: #eaf2fd;">
+        <svg width="30" height="30" fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14"></path>
+          <path d="M5 12h14"></path>
+        </svg>
+      </button>
+      <span>{{itog_dohod}}   -   {{itog_dohod365}}</span>
+    </div>
   </div>
 </div>
+
+

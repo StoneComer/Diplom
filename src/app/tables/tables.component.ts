@@ -44,7 +44,7 @@ export class TablesComponent implements OnInit {
               location.reload();
             }
           });
-        } else if (resp['tables'] !== 'empty') {
+        } else {
           // console.log(resp['tables']);
           if (resp.tables.tables)
           {
@@ -97,7 +97,7 @@ export class TablesComponent implements OnInit {
     if (this.tables_base.groupsTables[this.current_folder_index].tables)
     {
       while (bool) {
-        if (this.current_folder){
+        if (this.current_folder === 'folder'){
           index = this.tables_base.groupsTables[this.current_folder_index].tables.findIndex(item => item.name === empty);
         } else {
           index = this.tables_base.tables.findIndex(item => item.name === empty);

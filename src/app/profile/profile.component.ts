@@ -78,7 +78,14 @@ export class ProfileComponent implements OnInit{
       theme: this.message.theme,
       message: this.message.message,
     }
-    this.tableservice.postSupportMessage(form).subscribe();
+    this.tableservice.postSupportMessage(form).subscribe({
+      next: resp => {
+        this.supportMessages = {
+          ides: [],
+          messages: [],
+        };
+      }
+    });
   }
   deleteSupportMessage(index: number) {
     this.tableservice.deletesupportMessage(this.supportMessages.ides[index]).subscribe({

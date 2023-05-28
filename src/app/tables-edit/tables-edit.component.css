@@ -1,5 +1,11 @@
 td input {
   border: 0;
+  background-color: #eaf2fd;
+}
+
+td input:focus {
+  color: white;
+  background-color: #0e3e7f;
 }
 
 h3 input {
@@ -15,4 +21,17 @@ h3 input {
   color: white;
   background-color: #0d3872;
   border-color: #0d3872; /*set the color you want here*/
+}
+.controls {
+  color:#0e3e7f;
+  cursor: pointer;
+}
+.controls:hover {
+  outline: 1px solid #0e3e7f;
+  border-radius: 2px;
+}
+.controls:focus {
+  background-color: #0d3872;
+  outline: 1px solid #0e3e7f;
+  border-radius: 2px;
 }
