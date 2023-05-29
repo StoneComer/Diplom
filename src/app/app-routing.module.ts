@@ -9,20 +9,14 @@ import { NewsIOResolver } from './newsIO.resolver';
 import { TablesComponent } from './tables/tables.component';
 import { TablesEditComponent } from './tables-edit/tables-edit.component';
 import { AllTablesResolver } from './all-tables.reslover';
+import { AccessGuardGuard } from './access-guard.guard';
 const routes: Routes = [
   {
     path: '',
     component: MainPageComponent
   },
   {
-    path: 'authorization',
-    component: AuthorizationComponent,
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-  },
-  {
+    canActivate: [AccessGuardGuard],
     path: 'news',
     component: NewsComponent,
     resolve:
@@ -32,6 +26,7 @@ const routes: Routes = [
     }
   },
   {
+    canActivate: [AccessGuardGuard],
     path: 'tables',
     component: TablesComponent,
     resolve: {
@@ -39,10 +34,12 @@ const routes: Routes = [
     }
   },
   {
+    canActivate: [AccessGuardGuard],
     path: 'tables/edit/:id',
     component: TablesEditComponent
   },
   {
+    canActivate: [AccessGuardGuard],
     path: 'profile',
     component: ProfileComponent
   }
