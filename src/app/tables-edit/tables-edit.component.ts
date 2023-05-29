@@ -36,10 +36,10 @@ export class TablesEditComponent implements OnInit {
   };
   table: {
     name: string,
-    fields: any,
+    fields: any[],
   } = {
     name: '',
-    fields: null,
+    fields: [],
   };
   itog_dohod = '';
   itog_dohod365 = '';
@@ -82,104 +82,61 @@ export class TablesEditComponent implements OnInit {
             this.fields.forEach(item => {
               if (item.saleDate && item.buyDate){
                 let buy = (Number(item.buyPrice) * Number(item.number));
-                let sumbuy = buy;
-                for(let i = 0; i < ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000); i++) {
-                  buy = buy / Number(item.dohod);
-                  sumbuy = sumbuy + buy;
-                }
+                let sumbuy = buy * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
+                let sell = (Number(item.buyPrice) * Number(item.number));
+                let sumsell = sell * Number(item.dohod) * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
                 starts.push(sumbuy);
-                ends.push(buy * ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000));
+                ends.push(sumsell);
               }
             });
-            if (this.fields[1].saleDate && this.fields[1].buyDate)
-            console.log((Date.parse(this.fields[1].saleDate) - Date.parse(this.fields[1].buyDate)) / 86400000);
+            if (this.fields[0].saleDate && this.fields[0].buyDate)
+            console.log(starts);
             console.log(ends);
             let starts_sum:number = 0;
             starts.map(item => starts_sum += item);
             let ends_sum:number = 0;
             ends.map(item => ends_sum += item);
-            this.itog_dohod = (starts_sum / ends_sum).toString();
-            this.itog_dohod365 = (Math.pow((starts_sum / ends_sum), 365)).toString();
+            this.itog_dohod = (ends_sum / starts_sum).toString();
+            this.itog_dohod365 = (Math.pow((ends_sum / starts_sum), 365)).toString();
           }
           console.log(resp);
           //console.log(fields);
         }
       });
     }
-    // let id = this.route.snapshot.params['id'].findIndex('-');
-    // if (id > -1) {
-
-    // }
-    // if (this.tables.tables.findIndex(item => item.id === this.route.snapshot.params['id']) > -1) {
-    //   this.index.indexTable = this.tables.tables.findIndex(item => item.id === this.route.snapshot.params['id']);
-    //   this.index.group = false;
-    //   this.isTable = true;
-    // } else {
-    //   this.tables.groupsTables.forEach(item => {
-    //     let i = 0;
-    //     if (item.tables.findIndex(item => item.id === this.route.snapshot.params['id']) > -1) {
-    //       this.index.indexTable = item.tables.findIndex(item => item.id === this.route.snapshot.params['id']);
-    //       this.index.group = true;
-    //       this.index.indexGroup = i;
-    //       this.isTable = true;
-    //     } else {
-    //       this.index.indexTable = 0;
-    //       this.index.group = false;
-    //       this.index.indexGroup = 0;
-    //       this.isTable = false;
-    //     }
-    //     i++;
-    //   })
-    // }
   }
-  // excelExport() {
-  //   const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
-  //   const EXCEL_EXTENSION = '.xlsx';
-  //   let tablesJSON: any = [];
-  //   if (!this.index.group){
-  //     this.tables.tables[this.index.indexTable].fields.forEach(item => {
-  //       let bd = new Date(item.buyDate);
-  //       let sd = new Date(item.saleDate)
-  //       tablesJSON.push(
-  //         {
-  //           'Название': item.name,
-  //           'Биржа': item.birza,
-  //           'Дата Покупки': bd.toString,
-  //           'Цена Покупки': item.buyPrice,
-  //           'Дата Продажи': sd.toString,
-  //           'Цена Продажи': item.salePrice,
-  //           'Доходноть': item.dohod,
-  //         }
-  //       );
-  //     });
-  //   } else {
-  //     this.tables.groupsTables[this.index.indexGroup].tables[this.index.indexTable].fields.forEach(item => {
-  //       let bd = new Date(item.buyDate);
-  //       let sd = new Date(item.saleDate)
-  //       tablesJSON.push(
-  //         {
-  //           'Название': item.name,
-  //           'Биржа': item.birza,
-  //           'Дата Покупки': bd.toString,
-  //           'Цена Покупки': item.buyPrice,
-  //           'Дата Продажи': sd.toString,
-  //           'Цена Продажи': item.salePrice,
-  //           'Доходноть': item.dohod,
-  //         }
-  //       );
-  //     });
-  //   };
-  //   const worksheet = XLSXX.utils.json_to_sheet(tablesJSON);
-  //   const workBook = {
-  //     Sheets:{
-  //       'testingSheet':worksheet
-  //     },
-  //     SheetNames:['testingSheet']
-  //   }
-  //   const excelBuffer = XLSXX.write(workBook,{bookType: 'xlsx', type:'array'});
-  //   const blobData = new Blob([excelBuffer], {type:EXCEL_TYPE});
-  //   this.fileSaver.save(blobData,"demoFile")
-  // }
+  excelExport() {
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
+    const EXCEL_EXTENSION = '.xlsx';
+    let tablesJSON: any = [];
+    let table = {
+      name: this.new_name,
+      fields: this.fields,
+    }
+    table.fields.forEach(item => {
+      tablesJSON.push(
+        {
+          'Название': item.name,
+          'Биржа': item.birza,
+          'Дата Покупки': item.buyDate,
+          'Цена Покупки': item.buyPrice,
+          'Дата Продажи': item.saleDate,
+          'Цена Продажи': item.salePrice,
+          'Доходноть': item.dohod,
+        }
+      );
+    });
+    const worksheet = XLSXX.utils.json_to_sheet(tablesJSON);
+    const workBook = {
+      Sheets:{
+        'testingSheet':worksheet
+      },
+      SheetNames:['testingSheet']
+    }
+    const excelBuffer = XLSXX.write(workBook,{bookType: 'xlsx', type:'array'});
+    const blobData = new Blob([excelBuffer], {type:EXCEL_TYPE});
+    this.fileSaver.save(blobData,"demoFile")
+  }
   saveTable() {
     let table = {name: this.new_name,fields: this.fields}
     if (this.groupId === '') {

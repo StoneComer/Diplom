@@ -32,6 +32,9 @@ export class TablesService {
     postNewEmptyTable(name: string) {
       return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/tables.json', {name: name});
     }
+    postNewTable(table: any, idGroup?: string) {
+      return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/tables.json', table);
+    }
     postNewGroup(name: string) {
       return this.http.post(this.url + 'ProfileTables/'+ this.uid +'/group.json', {name: name});
     }

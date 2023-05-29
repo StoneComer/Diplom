@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { profile_tables } from '../interfaces';
+import { Field, profile_tables } from '../interfaces';
 import * as XLSX from 'xlsx';
 import { AuthService, Tables } from '../auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -158,44 +158,63 @@ export class TablesComponent implements OnInit {
       }
     });
   }
-  // ReadExcel(event: any, ) {
-  //   let file = event.target.files[0];
-  //   let fileReader = new FileReader();
-  //   let excelD;
-  //   fileReader.readAsBinaryString(file);
-  //   fileReader.onload = (e) => {
-  //     var workBook = XLSX.read(fileReader.result, {type:'binary'});
-  //     var sheetNames = workBook.SheetNames;
-  //       //excelD.push(XLSX.utils.sheet_to_json(workBook.Sheets[item]));
-  //       this.excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
-  //       console.log(XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]));
-  //       var field = {
-  //         name: this.excelData[0]['Название'],
-  //         birza: this.excelData[0]['Биржа'],
-  //         buyDate: this.excelData[0]['Дата Покупки'].toString(),
-  //         buyPrice: this.excelData[0]['Цена Покупки'].toString(),
-  //         saleDate: this.excelData[0]['Дата Продажи'].toString(),
-  //         salePrice: this.excelData[0]['Цена Продажи'].toString(),
-  //         dohod: '',
-  //       }
-  //       var table = {
-  //         name: event.target.files[0].name,
-  //         fields: [field],
-  //       }
-  //       if (this.current_folder === 'folder') {
-  //         if (this.tables.groupsTables[this.current_folder_index].tables.findIndex(item => item.name === table.name) > -1) {
-  //           table.name = table.name + '(1)'
-  //         }
-  //         this.tables.groupsTables[this.current_folder_index].tables.push(table);
-  //       } else {
-  //         if (this.tables.tables.findIndex(item => item.name === table.name) > -1) {
-  //           table.name = table.name + '(1)'
-  //         }
-  //         this.tables.tables.push(table);
-  //       }
-  //       this.authtables.tables = this.tables;
-  //   }
-  // }
+  ReadExcel(event: any) {
+    let file = event.target.files[0];
+    let fileReader = new FileReader();
+    let excelD;
+    fileReader.readAsBinaryString(file);
+    fileReader.onload = (e) => {
+      var workBook = XLSX.read(fileReader.result, {type:'binary'});
+      var sheetNames = workBook.SheetNames;
+        //excelD.push(XLSX.utils.sheet_to_json(workBook.Sheets[item]));
+        this.excelData = XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]);
+        console.log(XLSX.utils.sheet_to_json(workBook.Sheets[sheetNames[0]]));
+        var table:{
+          name: string,
+          fields: Field[],
+        } = {
+          name: event.target.files[0].name,
+          fields: [],
+        }
+        this.excelData.forEach((item: any) => {
+        if (item['Дата Покупки'].toString().length !== 10 || item['Дата Продажи'].toString().length !== 10) {
+          return
+        }
+        var field = {
+          name: item['Название'],
+          birza: item['Биржа'],
+          buyDate: item['Дата Покупки'].toString(),
+          buyPrice: item['Цена Покупки'].toString(),
+          saleDate: item['Дата Продажи'].toString(),
+          salePrice: item['Цена Продажи'].toString(),
+          number: item['Количество'].toString(),
+          dohod: item['Доходность в день'].toString(),
+        }
+        table.fields.push(field);
+        });
+        if (this.current_folder === 'folder') {
+          if (this.tables_base.groupsTables[this.current_folder_index].tables.findIndex(item => item.name === table.name) > -1) {
+            table.name = table.name + '(1)';
+          }
+          this.tables_base.groupsTables[this.current_folder_index].tables.push(table);
+          this.table.postNewTable(table, this.groups.groups_ides[this.current_folder_index]).subscribe({
+            next: resp => {
+              location.reload();
+            }
+          });
+        } else {
+          if (this.tables_base.tables.findIndex(item => item.name === table.name) > -1) {
+            table.name = table.name + '(1)'
+          }
+          this.tables_base.tables.push(table);
+          this.table.postNewTable(table).subscribe({
+            next: resp => {
+              location.reload();
+            }
+          });
+        }
+    }
+  }
   editTable(index: number) {
     if (this.current_folder === 'none') {
       this.router.navigate(['/tables/edit/' + this.tables_ides[index]]);
