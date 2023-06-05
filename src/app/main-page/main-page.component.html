@@ -1,22 +1,70 @@
-<div>
-  sdf
+<div style="
+background-color: #0e3e7f;
+padding-top: 100px;
+padding-bottom: 100px;">
+  <div style="color: white; margin-bottom: 60px; margin-right: 8px; display: grid; justify-content: end">
+    <div>Доллар США $
+      <span *ngIf="valutes.Valute.USD.Value > valutes.Valute.USD.Previous">
+      <svg width="20" height="20" fill="#28bd3a" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="m19.406 15.094-6.552-7.647a1.125 1.125 0 0 0-1.709 0l-6.552 7.647c-.625.73-.107 1.857.854 1.857h13.107c.96 0 1.479-1.128.852-1.857Z"></path>
+      </svg>
+    </span>
+    <span *ngIf="valutes.Valute.USD.Previous > valutes.Valute.USD.Value">
+      <svg width="20" height="20" fill="#bd2828" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="m4.594 8.912 6.553 7.646a1.126 1.126 0 0 0 1.708 0l6.552-7.646c.625-.73.107-1.857-.854-1.857H5.447c-.961 0-1.48 1.127-.853 1.857Z"></path>
+      </svg>
+    </span>
+    — {{valutes.Valute.USD.Value}} руб.</div>
+    <div>Евро €
+      <span *ngIf="valutes.Valute.EUR.Value > valutes.Valute.EUR.Previous">
+        <svg width="20" height="20" fill="#28bd3a" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m19.406 15.094-6.552-7.647a1.125 1.125 0 0 0-1.709 0l-6.552 7.647c-.625.73-.107 1.857.854 1.857h13.107c.96 0 1.479-1.128.852-1.857Z"></path>
+        </svg>
+      </span>
+      <span *ngIf="valutes.Valute.EUR.Previous > valutes.Valute.EUR.Value">
+        <svg width="20" height="20" fill="#bd2828" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m4.594 8.912 6.553 7.646a1.126 1.126 0 0 0 1.708 0l6.552-7.646c.625-.73.107-1.857-.854-1.857H5.447c-.961 0-1.48 1.127-.853 1.857Z"></path>
+        </svg>
+      </span>
+       — {{valutes.Valute.EUR.Value}} руб.</div>
+      <div>Китайякий юань ¥
+      <span *ngIf="valutes.Valute.CNY.Value > valutes.Valute.CNY.Previous">
+        <svg width="20" height="20" fill="#28bd3a" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m19.406 15.094-6.552-7.647a1.125 1.125 0 0 0-1.709 0l-6.552 7.647c-.625.73-.107 1.857.854 1.857h13.107c.96 0 1.479-1.128.852-1.857Z"></path>
+        </svg>
+      </span>
+      <span *ngIf="valutes.Valute.CNY.Previous > valutes.Valute.CNY.Value">
+        <svg width="20" height="20" fill="#bd2828" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m4.594 8.912 6.553 7.646a1.126 1.126 0 0 0 1.708 0l6.552-7.646c.625-.73.107-1.857-.854-1.857H5.447c-.961 0-1.48 1.127-.853 1.857Z"></path>
+        </svg>
+      </span>
+        — {{valutes.Valute.CNY.Value}} руб.
+    </div>
+  </div>
+  <div class="card my-3" style="max-width: 100%; margin-left: 8px; min-height: 100%; margin-right: 8px; background-color: #0e3e7f; outline: 2px solid white;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [ngSrc]="news.image_url" width="500" height="500" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body" style="color: white;">
+          <h5 class="card-title">{{news.title}}</h5>
+          <p class="card-text">{{news.description}}</p>
+          <p class="card-text"><small class="text-muted">Опубликовано: {{news.pubDate | date:'medium'}}</small></p>
+          <a [href]="news.link" class="link" target="_blank">Подробнее...</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-<div>sdf</div>
+<div style="background: url('https://img.freepik.com/premium-vector/forex-stock-market-exchange-background-financial-web-banner-template-for-forex-trading-graph-chart-f_208588-2777.jpg');">
+  <div style="backdrop-filter: blur(1.5px);">
+    <div style="padding: 8px; padding-top: 200px; padding-bottom: 200px; margin-left: 20px; color: #0e3e7f;">
+      <h1>О сайте</h1>
+      <h3>Этот сайт предоставляет возможность хранения историй биржевых транзакций в виде таблиц!</h3>
+      <h4>Есть возможность загрузки и выгрузки таблиц в XLSX формате!</h4>
+      <h4>Уникальная формула расчета доходности!</h4>
+      <h4>Интересно? Тогда авторизуйся и попробуй!</h4>
+    </div>
+  </div>
+</div>

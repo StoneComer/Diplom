@@ -67,6 +67,9 @@ export class TablesService {
     deletesupportMessage(id: string) {
       return this.http.delete(this.url + 'SupportMessages/' + id +'.json');
     }
+    getValutes() {
+      return this.http.get('https://www.cbr-xml-daily.ru/daily_json.js');
+    }
     // getNewsLenta() {
     //   return this.http.get(this.url1);
     // }

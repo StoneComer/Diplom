@@ -122,7 +122,8 @@ export class TablesEditComponent implements OnInit {
           'Цена Покупки': item.buyPrice,
           'Дата Продажи': item.saleDate,
           'Цена Продажи': item.salePrice,
-          'Доходноть': item.dohod,
+          'Количество': item.number,
+          'Доходноть в день': item.dohod,
         }
       );
     });
@@ -135,7 +136,7 @@ export class TablesEditComponent implements OnInit {
     }
     const excelBuffer = XLSXX.write(workBook,{bookType: 'xlsx', type:'array'});
     const blobData = new Blob([excelBuffer], {type:EXCEL_TYPE});
-    this.fileSaver.save(blobData,"demoFile")
+    this.fileSaver.save(blobData, table.name);
   }
   saveTable() {
     let table = {name: this.new_name,fields: this.fields}

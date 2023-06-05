@@ -10,10 +10,16 @@ import { TablesComponent } from './tables/tables.component';
 import { TablesEditComponent } from './tables-edit/tables-edit.component';
 import { AllTablesResolver } from './all-tables.reslover';
 import { AccessGuardGuard } from './access-guard.guard';
+import { MainResolver } from './main.resolver';
+import { MainValutesResolver } from './main-valutes.resolver';
 const routes: Routes = [
   {
     path: '',
-    component: MainPageComponent
+    component: MainPageComponent,
+    resolve: {
+      news: MainResolver,
+      valutes: MainValutesResolver,
+    }
   },
   {
     canActivate: [AccessGuardGuard],
