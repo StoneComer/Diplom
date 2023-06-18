@@ -7,6 +7,7 @@ import { FileSaverService } from 'ngx-filesaver';
 import * as XLSXX from 'xlsx';
 import { TablesService } from '../tables.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { Chart, ChartItem } from 'chart.js/auto';
 
 @Component({
   selector: 'app-tables-edit',
@@ -77,29 +78,7 @@ export class TablesEditComponent implements OnInit {
                 item.dohod = Math.pow(((Number(item.salePrice) * Number(item.number)) / (Number(item.buyPrice) * Number(item.number))), ( 1 / ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000))).toString();
               }
             });
-            let starts:number[] = [];
-            let ends:number[] = [];
-            this.fields.forEach(item => {
-              if (item.saleDate && item.buyDate){
-                let buy = (Number(item.buyPrice) * Number(item.number));
-                let sumbuy = buy * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
-                let sell = (Number(item.buyPrice) * Number(item.number));
-                let sumsell = sell * Number(item.dohod) * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
-                starts.push(sumbuy);
-                ends.push(sumsell);
-              }
-            });
-            if (this.fields[0].saleDate && this.fields[0].buyDate)
-            console.log(starts);
-            console.log(ends);
-            let starts_sum:number = 0;
-            starts.map(item => starts_sum += item);
-            let ends_sum:number = 0;
-            ends.map(item => ends_sum += item);
-            this.itog_dohod = (ends_sum / starts_sum).toString();
-            this.itog_dohod365 = (Math.pow((ends_sum / starts_sum), 365)).toString();
           }
-          console.log(resp);
           //console.log(fields);
         }
       });
@@ -182,5 +161,71 @@ export class TablesEditComponent implements OnInit {
   }
   deleteString(index: number) {
     this.fields.splice(index, 1);
+  }
+  count_dohod() {
+     if (this.fields) {
+      let starts:number[] = [];
+      let ends:number[] = [];
+      this.fields.forEach(item => {
+        if (item.saleDate && item.buyDate){
+          let buy = (Number(item.buyPrice) * Number(item.number));
+          let sumbuy = buy * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
+          let sell = (Number(item.buyPrice) * Number(item.number));
+          let sumsell = sell * Number(item.dohod) * (1 - Math.pow(Number(item.dohod), ((Date.parse(item.saleDate) - Date.parse(item.buyDate)) / 86400000) - 1)) / (1 - Number(item.dohod));
+          starts.push(sumbuy);
+          ends.push(sumsell);
+        }
+      });
+      if (this.fields[0].saleDate && this.fields[0].buyDate)
+      console.log(starts);
+      console.log(ends);
+      let starts_sum:number = 0;
+      starts.map(item => starts_sum += item);
+      let ends_sum:number = 0;
+      ends.map(item => ends_sum += item);
+      this.itog_dohod = (ends_sum / starts_sum).toString();
+      this.itog_dohod365 = (Math.pow((ends_sum / starts_sum), 365)).toString();
+    }
+  }
+  createChart() {
+    let nums = this.fields.map(item => Number(item.dohod));
+    console.log(nums);
+    let divi:any = document.getElementById('acquisitions');
+    let chart = new Chart(divi, { type: 'bar', data: {datasets: []}});
+    chart.destroy();
+    if (divi) {
+      new Chart(
+        divi,
+        {
+          type: 'bar',
+          options: {
+            animation: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                enabled: false
+              }
+            },
+            scales: {
+              y: {
+                min: Math.min.apply(null, nums),
+                max: Math.max.apply(null, nums),
+              }
+            }
+          },
+          data: {
+            labels: this.fields.map((row, i)=> row.name + ' ' + (i + 1).toString()),
+            datasets: [
+              {
+                label: 'Acquisitions by year',
+                data: this.fields.map(row => row.dohod),
+              }
+            ]
+          }
+        }
+      );
+    }
   }
 }

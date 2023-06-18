@@ -10,6 +10,21 @@
         <span style="margin-left: 8px; color: black; font-weight: 700; font-size: larger;">Назад</span>
       </div>
       <div style="display: flex; flex-flow: row; margin-right: 1%;">
+        <button (click)="createChart()" class="controls" data-bs-toggle="modal" data-bs-target="#charts" style="margin-right: 2%; background-color: #eaf2fd; border: 0;">
+          <svg width="30" height="30" fill="none" stroke="#0e3e7f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.875 15h-1.5a.375.375 0 0 0-.375.375v6.75c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-6.75A.375.375 0 0 0 4.875 15Z"></path>
+            <path d="M15.375 10.5h-1.5a.375.375 0 0 0-.375.375v11.25c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-11.25a.375.375 0 0 0-.375-.375Z"></path>
+            <path d="M20.625 5.25h-1.5a.375.375 0 0 0-.375.375v16.5c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-16.5a.375.375 0 0 0-.375-.375Z"></path>
+            <path d="M10.125 1.5h-1.5a.375.375 0 0 0-.375.375v20.25c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375V1.875a.375.375 0 0 0-.375-.375Z"></path>
+          </svg>
+        </button>
+        <button (click)="count_dohod()" class="controls" data-bs-toggle="modal" data-bs-target="#itog_dohod" style="margin-right: 2%; background-color: #eaf2fd; border: 0;">
+          <svg width="30" height="30" fill="none" stroke="#0e3e7f" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+            <path d="M9 19h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2Zm0 0h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H9a2 2 0 0 0-1.414.586"></path>
+            <path d="M15.414 15.414a2 2 0 1 0-2.828-2.828 2 2 0 0 0 2.828 2.828Z"></path>
+          </svg>
+        </button>
         <button (click)="excelExport()" class="controls" style="margin-right: 2%; background-color: #eaf2fd; border: 0;">
           <svg width="30" height="30" fill="none" stroke="#2e7d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -74,9 +89,43 @@
           <path d="M5 12h14"></path>
         </svg>
       </button>
-      <div style="display: flex; flex-flow: column; margin-left: 16px;"><div> Доходность всех транзакций таблицы в день: {{itog_dohod}}</div><div style="margin-top: 8px;">Доходность всех транзакций таблицы в год: {{itog_dohod365}}</div></div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="itog_dohod" tabindex="-1" aria-labelledby="itog_dohod" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="itog_dohod">Доходность всей таблицы</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="fields.length > 0">Доходность в день: {{itog_dohod}}</div>
+        <div *ngIf="fields.length > 0">Доходность в год: {{itog_dohod365}}</div>
+        <div *ngIf="fields.length === 0 || !fields" style="color:gray">Введите данные для рассчета</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="charts" tabindex="-1" aria-labelledby="charts" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">График</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="fields.length > 0"><div><canvas id="acquisitions"></canvas></div></div>
+        <div *ngIf="fields.length === 0 || !fields" style="color:gray">Введите данные для графика</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
