@@ -35,3 +35,6 @@ h3 input {
   outline: 1px solid #0e3e7f;
   border-radius: 2px;
 }
+.modal-dialog {
+  max-width: 1200px;
+}

@@ -32,8 +32,8 @@ export class MainPageComponent implements OnInit {
           };
           newsitems = resp['news'].results[0];
           this.news = newsitems;
-          this.valutes = resp['valutes'];
         }
+        this.valutes = resp['valutes'];
       }
     });
   }
