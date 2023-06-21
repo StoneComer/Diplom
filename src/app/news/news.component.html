@@ -1,36 +1,36 @@
 <div>
   <div>
-  <ng-container *ngIf="newslist[0].title !== ''">
-    <ng-container *ngFor="let item of newslist">
-      <!-- <div class="card my-2" style="width: 98%; margin: auto;">
-        <div>
-          <img [ngSrc]="item.image_url" width="500" height="500" class="card-img-top" alt="..." >
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{item.title}}</h5>
-          <p class="card-text">{{item.description}}</p>
-          <a [href]="item.link" class="link">Подробнее...</a>
-        </div>
-      </div> -->
-      <div class="card my-3" style="max-width: 98%; margin: auto;">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img [ngSrc]="item.image_url" width="500" height="500" class="img-fluid rounded-start" alt="...">
+    <ng-container *ngIf="newslist[0].title !== ''">
+      <ng-container *ngFor="let item of newslist">
+        <!-- <div class="card my-2" style="width: 98%; margin: auto;">
+          <div>
+            <img [ngSrc]="item.image_url" width="500" height="500" class="card-img-top" alt="..." >
           </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{item.title}}</h5>
-              <p class="card-text">{{item.description}}</p>
-              <p class="card-text"><small class="text-muted">Опубликовано: {{item.pubDate | date:'medium'}}</small></p>
-              <a [href]="item.link" class="link" target="_blank">Подробнее...</a>
+          <div class="card-body">
+            <h5 class="card-title">{{item.title}}</h5>
+            <p class="card-text">{{item.description}}</p>
+            <a [href]="item.link" class="link">Подробнее...</a>
+          </div>
+        </div> -->
+        <div class="card my-3" style="max-width: 98%; margin: auto;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img [ngSrc]="item.image_url" width="500" height="500" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{item.title}}</h5>
+                <p class="card-text">{{item.description}}</p>
+                <p class="card-text"><small class="text-muted">Опубликовано: {{item.pubDate}}</small></p>
+                <a [href]="item.link" class="link" target="_blank">Подробнее...</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
-  <ng-container *ngIf="newslist[0].title === ''">
-    <span>Нет актуальных новостей</span>
-  </ng-container>
+    <ng-container *ngIf="newslist[0].title === ''">
+      <span>Нет актуальных новостей</span>
+    </ng-container>
   </div>
 </div>

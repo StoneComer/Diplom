@@ -2,7 +2,7 @@
 background-color: #0e3e7f;
 padding-top: 100px;
 padding-bottom: 100px;">
-  <div style="color: white; margin-bottom: 60px; margin-right: 8px; display: grid; justify-content: end">
+  <div style="color: white; margin-bottom: 60px; margin-right: 60px; display: grid; justify-content: end">
     <div>Доллар США $
       <span *ngIf="valutes.Valute.USD.Value > valutes.Valute.USD.Previous">
       <svg width="20" height="20" fill="#28bd3a" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -41,18 +41,38 @@ padding-bottom: 100px;">
         — {{valutes.Valute.CNY.Value}} руб.
     </div>
   </div>
-  <div class="card my-3" style="max-width: 100%; margin-left: 8px; min-height: 100%; margin-right: 8px; background-color: #0e3e7f; outline: 2px solid white;">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img [ngSrc]="news.image_url" width="500" height="500" class="img-fluid rounded-start" alt="...">
+  <div class="card-group">
+    <div class="card">
+      <img [src]="news[0].image_url" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ news[0].title }}</h5>
+        <p class="card-text">{{ news[0].description }}</p>
       </div>
-      <div class="col-md-8">
-        <div class="card-body" style="color: white;">
-          <h5 class="card-title">{{news.title}}</h5>
-          <p class="card-text">{{news.description}}</p>
-          <p class="card-text"><small class="text-muted">Опубликовано: {{news.pubDate | date:'medium'}}</small></p>
-          <a [href]="news.link" class="link" target="_blank">Подробнее...</a>
-        </div>
+      <div class="card-footer">
+        <small class="text-m">Опубликовано: {{ news[0].pubDate }}</small>
+        <a [href]="news[0].link" class="link" target="_blank">Подробнее...</a>
+      </div>
+    </div>
+    <div class="card">
+      <img [src]="news[1].image_url" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ news[1].title }}</h5>
+        <p class="card-text">{{ news[1].description }}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-m">Опубликовано: {{ news[1].pubDate }}</small>
+        <a [href]="news[1].link" class="link" target="_blank">Подробнее...</a>
+      </div>
+    </div>
+    <div class="card">
+      <img [src]="news[2].image_url" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ news[2].title }}</h5>
+        <p class="card-text">{{ news[2].description }}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-m">Опубликовано: {{ news[2].pubDate }}</small>
+        <a [href]="news[2].link" class="link" target="_blank">Подробнее...</a>
       </div>
     </div>
   </div>

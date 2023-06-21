@@ -8,3 +8,23 @@
   background-color: #0d3872;
   border-color: #0d3872; /*set the color you want here*/
 }
+.card {
+  background-color: #0e3e7f;
+  color: white;
+  border-color: white;
+}
+.card-group {
+  max-width: 95%;
+  margin-inline: auto;
+}
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.link {
+  color: cyan;
+}
+.text-m {
+  color:lightgray;
+}

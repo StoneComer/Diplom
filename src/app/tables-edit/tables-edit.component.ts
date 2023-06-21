@@ -210,8 +210,8 @@ export class TablesEditComponent implements OnInit {
             },
             scales: {
               y: {
-                min: Math.min.apply(null, nums),
-                max: Math.max.apply(null, nums),
+                min: Math.min.apply(null, nums) - (Math.min.apply(null, nums) * 0.005),
+                max: Math.max.apply(null, nums) + (Math.min.apply(null, nums) * 0.005),
               }
             }
           },
